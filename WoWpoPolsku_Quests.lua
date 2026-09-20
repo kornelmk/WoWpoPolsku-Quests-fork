@@ -93,7 +93,6 @@ else
 end
 
 
-
 function Spr_Gender(msg)
    local nr_1, nr_2, nr_3 = 0;
    local QTR_forma = "";
@@ -1143,7 +1142,7 @@ function QTR_ExpandUnitInfo(msg)
    msg = string.gsub(msg, "YOUR_NAME7", QTR_name);
    msg = string.gsub(msg, "YOUR_NAME", QTR_name);
    
--- jeszcze obsłużyć YOUR_GENDER(x;y)
+   -- jeszcze obsłużyć YOUR_GENDER(x;y)
    local nr_1, nr_2, nr_3 = 0;
    local QTR_forma = "";
    local nr_poz = string.find(msg, "YOUR_GENDER");    -- gdy nie znalazł, jest: nil
@@ -1175,7 +1174,7 @@ function QTR_ExpandUnitInfo(msg)
       nr_poz = string.find(msg, "YOUR_GENDER");
    end
 
--- jeszcze obsłużyć YOUR_GENDER(x;y)
+   -- jeszcze obsłużyć YOUR_GENDER(x;y)
    local nr_1, nr_2, nr_3 = 0;
    local QTR_forma = "";
    local nr_poz = string.find(msg, "YOUR_GENDER");    -- gdy nie znalazł, jest: nil
@@ -1207,7 +1206,7 @@ function QTR_ExpandUnitInfo(msg)
       nr_poz = string.find(msg, "YOUR_GENDER");
    end
 
--- jeszcze obsłużyć NPC_GENDER(x;y)
+   -- jeszcze obsłużyć NPC_GENDER(x;y)
    local nr_1, nr_2, nr_3 = 0;
    local QTR_forma = "";
    local NPC_sex = UnitSex("npc");     -- 1:neutral,  2:męski,  3:żeński
@@ -1240,7 +1239,7 @@ function QTR_ExpandUnitInfo(msg)
       nr_poz = string.find(msg, "NPC_GENDER");
    end
 
--- jeszcze obsłużyć OWN_NAME(EN;PL)
+   -- jeszcze obsłużyć OWN_NAME(EN;PL)
    local nr_1, nr_2, nr_3 = 0;
    local QTR_forma = "";
    local nr_poz = string.find(msg, "OWN_NAME");    -- gdy nie znalazł, jest: nil
@@ -1260,14 +1259,14 @@ function QTR_ExpandUnitInfo(msg)
                nr_3 = nr_3 + 1;
             end
             if (string.sub(msg, nr_3, nr_3) == ")") then
---               if (QTR_PS["ownname"] == "1") then        -- forma polska
---                  QTR_forma = string.sub(msg,nr_2+1,nr_3-1);
---               else                                      -- forma angielska
+   --            if (QTR_PS["ownname"] == "1") then        -- forma polska
+   --               QTR_forma = string.sub(msg,nr_2+1,nr_3-1);
+   --            else                                      -- forma angielska
                   QTR_forma = string.sub(msg,nr_1+1,nr_2-1);
---               end
---               if ((QTR_PS["ownname_obj"] == "1") and OnObjectives) then        -- zawsze forma angielska w Objectives
---                  QTR_forma = string.sub(msg,nr_2+1,nr_3-1);
---               end
+   --            end
+   --            if ((QTR_PS["ownname_obj"] == "1") and OnObjectives) then        -- zawsze forma angielska w Objectives
+   --               QTR_forma = string.sub(msg,nr_2+1,nr_3-1);
+   --            end
                msg = string.sub(msg,1,nr_poz-1) .. QTR_forma .. string.sub(msg,nr_3+1);
             end   
          end
@@ -1340,4 +1339,3 @@ function QTR_ExpandUnitInfo(msg)
 
   return msg;
 end
-
