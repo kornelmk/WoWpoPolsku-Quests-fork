@@ -1075,7 +1075,22 @@ function Tut_onTutorialShow()
       local _font2, _size2, _2 = TutorialFrameText:GetFont();
       TutorialFrameText:SetFont(QTR_Font2, _size2);  
    end
-   TutorialFrameOkayButton:SetText("Zamknij");
+   -- tłumaczenie tekstu close 
+   TutorialFrameOkayButton:SetText(QTR_Messages.close);
+
+   -- tłumaczenie tekstu next 
+   for _,r in pairs({TutorialFrameNextButton:GetRegions()}) do
+      if r:IsObjectType("FontString") then
+         r:SetText(QTR_Messages.next);
+      end
+   end
+
+   -- tłumaczenie tekstu prev 
+   for _,r in pairs({TutorialFramePrevButton:GetRegions()}) do
+      if r:IsObjectType("FontString") then
+         r:SetText(QTR_Messages.prev);
+      end
+   end
 end
 
 -- funkcja zamieniająca w tekście znaczniki YOUR_NAME, YOUR_GENDER, NPC_GENDER, OWN_NAME na odpowiednie formy gramatyczne w języku polskim

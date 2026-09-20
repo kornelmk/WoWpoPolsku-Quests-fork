@@ -26,6 +26,9 @@ QTR_Messages = {
    multipleID = "To tłumaczenie może być niezgodne z oryginałem", 
    currquests = "Bieżące zadania", 
    avaiquests = "Dostępne zadania", 
+   close      = "Zamknij",
+   prev       = "Wstecz",
+   next       = "Dalej",
 }; 
 QTR_Interface = { 
    active     = "Aktywuj dodatek", 
