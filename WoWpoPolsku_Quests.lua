@@ -378,6 +378,9 @@ function QTR_OnLoad1()
   QuestLogDetailScrollFrame:HookScript("OnShow", QTR_ShowAndUpdateQuestInfo);
   QuestLogDetailScrollFrame:HookScript("OnHide", QTR_HideQuestInfo);
   
+  -- wywłoanie funkcji QTR_HookWatchFrameButtons() przy każdej aktualizacji WatchFrame
+  hooksecurefunc("WatchFrame_Update", function() QTR_HookWatchFrameButtons() end);
+
   QuestLogDetailFrame:HookScript("OnShow", function(self)
      self.QTR_WaitingForTranslation = true
   end)
