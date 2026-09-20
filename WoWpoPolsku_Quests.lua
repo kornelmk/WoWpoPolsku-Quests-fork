@@ -961,12 +961,24 @@ function QTR_ToggleVisibility()
   else
      QTR_PS["active"] = "0";
      QTR_HideQuestInfo();
+     
+     -- zamknięcie Quest Loga w celu przeładowania tłuamczeń
+     local questLogWasShown = QuestLogFrame:IsShown();
+     if (questLogWasShown) then
+         HideUIPanel(QuestLogFrame);
+     end
+
      if (DEFAULT_CHAT_FRAME) then
          DEFAULT_CHAT_FRAME:AddMessage("|cffffff00WoWpoPolsku-Quests "..QTR_Messages.isinactive);
      else
          UIErrorsFrame:AddMessage("|cffffff00WoWpoPolsku-Quests "..QTR_Messages.isinactive, 1.0, 1.0, 1.0, 1.0, UIERRORS_HOLD_TIME);
      end
+
      RestoreOriginalFonts();
+     -- ponowne otwarcie Quest Loga - stukek uboczny: odtwarzany dzwięk przy ponownym otworzeniu tego okna
+     if (questLogWasShown) then
+         ShowUIPanel(QuestLogFrame);
+     end
   end
 end
 
