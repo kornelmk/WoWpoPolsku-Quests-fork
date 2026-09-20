@@ -429,6 +429,22 @@ function QTR_OnLoad1()
    QTR_ToggleButtonGS:SetScript("OnClick", GS_ON_OFF);
 end
 
+-- obsługa przycisków z questami pod mapą - zadania rozwiązane (?) oraz zadania bieżące (1 do 20)
+function QTR_HookWatchFrameButtons()
+   print("QTR_HookWatchFrameButtons")
+    for i = 1, 20 do
+        for typ = 1, 2 do
+            local button = _G["poiWatchFrameLines" .. typ .. "_" .. i]
+            if button and not button.QTR_Hooked then
+                button:HookScript("OnClick", function()
+                    QTR_ShowAndUpdateQuestInfo()
+                end)
+                button.QTR_Hooked = true
+            end
+        end
+    end
+end
+
 -- funkcja wywoływana przy otwarciu okna QTRFrame2
 function QTR_OnLoad2()
   QTR.frame2 = CreateFrame("Frame");
@@ -487,6 +503,7 @@ end
 
 -- event QUEST_LOG_UPDATE - wywoływana przy zmianie zawartości QuestLog
 function QTR:QUEST_LOG_UPDATE()
+  QTR_HookWatchFrameButtons()
   if (QTRFrame1:IsVisible()) then
      QTR_UpdateQuestInfo();
   end
