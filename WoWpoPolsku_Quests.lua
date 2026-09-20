@@ -509,7 +509,7 @@ end
 
 -- event ADDON_LOADED - wywoływana przy załadowaniu dodatku
 function QTR:ADDON_LOADED(_, addon)
-  if (addon == "WoWpoPolsku_Quests") then
+  if (addon == "ImmersionPoPolsku") then
      SlashCmdList["WOWPOPOLSKU_QUESTS"] = function(msg) QTR_SlashCommand(msg); end
      SLASH_WOWPOPOLSKU_QUESTS1 = "/wowpopolsku-quests";
      SLASH_WOWPOPOLSKU_QUESTS2 = "/qtr";

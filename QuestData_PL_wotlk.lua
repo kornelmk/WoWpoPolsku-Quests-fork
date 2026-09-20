@@ -44,8 +44,8 @@ QTR_Interface = {
    width2     = "Szerokość okna 495|495", 
 }; 
 
-QTR_Font1 = "Interface\\AddOns\\WoWpoPolsku_Quests\\Fonts\\morpheus_pl.ttf"; 
-QTR_Font2 = "Interface\\AddOns\\WoWpoPolsku_Quests\\Fonts\\frizquadratatt_pl.ttf"; 
+QTR_Font1 = "Interface\\AddOns\\ImmersionPoPolsku\\WoWpoPolsku_Quests\\Fonts\\morpheus_pl.ttf"; 
+QTR_Font2 = "Interface\\AddOns\\ImmersionPoPolsku\\WoWpoPolsku_Quests\\Fonts\\frizquadratatt_pl.ttf"; 
 
 QTR_QuestData = {  
 ["2"]={["Title"]="Pazur Sharptalona ", ["Objectives"]="Przynieś Sharptalon's Claw do@Senani Thunderheart przebywającej w@Splintertree Post, Ashenvale.", ["Description"]="Potężny gryf Sharptalon został zgładzony! Pazur poległej bestii stanowi świadectwo twojego zwycięstwa.NEW_LINENEW_LINESenani Thunderheart przebywająca w@Posterunku Splintertree zapewne będzie chciała ujrzeć dowód twojego czynu.", ["Progress"]="Tak, YOUR_GENDER(potężny;potężna) YOUR_CLASS7, wyczułam, że@przybędziesz. Wierzę, iż@masz nowe wieści dotyczące twojego polowania.", ["Completion"]="Imponujące, YOUR_NAME... na@pewno nie@było ci łatwo zdobyć pazur Sharptalona! Widzę, że@polowanie w@Ashenvale poszło ci świetnie!NEW_LINENEW_LINESharptalon często atakował robotników z@obozów karczowniczych kiedy próbowali dostać się tutaj, do@Posterunku Splintertree. Wierzę, że@gdy tylko@tutejsi mieszkańcy usłyszą o@twym czynie, okoliczne tereny będą rozbrzmiewać pieśniami wychwalającymi twe zwycięstwo...", ["Translator"]="Nemeyeth, Ysska, Embryo (www.wowpopolsku.pl)"},
