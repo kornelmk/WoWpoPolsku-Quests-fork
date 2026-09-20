@@ -413,8 +413,11 @@ function QTR_OnLoad1()
   QTR_ToggleButton3:SetPoint("BOTTOMLEFT", QTRFrame1, "BOTTOMRIGHT", -25, 9);
   QTR_ToggleButton3:SetScript("OnClick", QTR_ChangeFrameWidth);
 
-    -- dodanie hooka do przycisku otwierającego mapę z poziomu Quest Loga, który wywoła tłumaczenie tekstu
+  -- dodanie hooka do przycisku otwierającego mapę z poziomu Quest Loga, który wywoła tłumaczenie tekstu
   QuestLogFrameShowMapButton:HookScript("OnClick", function() QTR_ShowAndUpdateQuestInfo() end);
+
+  -- dodanie hooka do przycisku otwierającego powiększającego mapę, który wywoła tłumaczenie tekstu
+  WorldMapFrameSizeUpButton:HookScript("OnClick", function() QTR_ShowAndUpdateQuestInfo() end);
 
   hooksecurefunc("QuestLogTitleButton_OnClick", function() QTR_UpdateQuestInfo() end);
   
