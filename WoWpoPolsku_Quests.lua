@@ -92,7 +92,7 @@ else
    DEFAULT_CHAT_FRAME:AddMessage("|cff55ff00QTR - nowa klasa: "..QTR_class);
 end
 
-
+-- funkcja sprawdzająca płeć i zwracająca odpowiednią formę gramatyczną w języku polskim
 function Spr_Gender(msg)
    local nr_1, nr_2, nr_3 = 0;
    local QTR_forma = "";
@@ -127,7 +127,7 @@ function Spr_Gender(msg)
    return msg;
 end
 
-
+-- funkcja tworząca Hash (32-bitowa liczba) podanego tekstu
 local function StringHash(text)           -- funkcja tworząca Hash (32-bitowa liczba) podanego tekstu
   local counter = 1;
   local pomoc = 0;
@@ -144,7 +144,7 @@ local function StringHash(text)           -- funkcja tworząca Hash (32-bitowa l
   return math.fmod(counter, 4294967291) -- 2^32 - 5: Prime (and different from the prime in the loop)
 end
 
-
+-- funkcja inicjalizuje i ustawia domyślne wartości zmiennych konfiguracyjnych
 function QTR_CheckVars()
   if (not QTR_PS) then
      QTR_PS = {};
@@ -205,7 +205,7 @@ function QTR_CheckVars()
   QTR_GS = {};       -- tablica na teksty oryginalne
 end
 
-
+-- funkcja sprawdzająca stan przycisków zaznaczonych w opcjach addonu
 function QTR_SetCheckButtonState()
   QTRCheckButton0:SetChecked(QTR_PS["active"]=="1");
   QTRCheckButton1:SetChecked(QTR_PS["mode"]=="1");
@@ -219,7 +219,7 @@ function QTR_SetCheckButtonState()
   QTRCheckButtonTutorial:SetChecked(QTR_PS["tutorial"]=="1");
 end
 
-
+-- funkcja wyświetlająca opcje addonu w menu interfejsu gry
 function QTR_BlizzardOptions()
   -- Create main frame for information text
   local QTROptions = CreateFrame("FRAME", "QTROptions");
@@ -371,7 +371,7 @@ function QTR_BlizzardOptions()
   QTRWWW2:SetScript("OnTextChanged", function(self) QTRWWW2:SetText("https://wowpopolsku.pl"); end);
 end
 
-
+-- funkcja wywoływana przy otwarciu okna QTRFrame1
 function QTR_OnLoad1()
   QTR.frame1 = CreateFrame("Frame");
   QTR.frame1:RegisterEvent("ADDON_LOADED");
@@ -428,7 +428,7 @@ function QTR_OnLoad1()
    QTR_ToggleButtonGS:SetScript("OnClick", GS_ON_OFF);
 end
 
-
+-- funkcja wywoływana przy otwarciu okna QTRFrame2
 function QTR_OnLoad2()
   QTR.frame2 = CreateFrame("Frame");
   QTR.frame2:RegisterEvent("QUEST_GREETING");
@@ -450,19 +450,19 @@ function QTR_OnLoad2()
   TutorialFramePrevButton:HookScript("OnClick", Tut_onTutorialShow);
 end
 
-
+-- obsługa puszczenia przycisku myszy na mapie świata
 function QTR_WorldMapQuestFrameOnMouseUp()
   QTR_event = "WORLD_MAP_OnMouseUp";
   QTR_OnEvent2();
 end
 
-
+-- obsługa linii komend w czacie
 function QTR_SlashCommand(msg)
   InterfaceOptionsFrame_OpenToCategory(QTROptions);
   RestoreOriginalFonts();
 end
 
-
+-- event ADDON_LOADED - wywoływana przy załadowaniu dodatku
 function QTR:ADDON_LOADED(_, addon)
   if (addon == "WoWpoPolsku_Quests") then
      SlashCmdList["WOWPOPOLSKU_QUESTS"] = function(msg) QTR_SlashCommand(msg); end
@@ -484,14 +484,14 @@ function QTR:ADDON_LOADED(_, addon)
   end
 end
 
-
+-- event QUEST_LOG_UPDATE - wywoływana przy zmianie zawartości QuestLog
 function QTR:QUEST_LOG_UPDATE()
   if (QTRFrame1:IsVisible()) then
      QTR_UpdateQuestInfo();
   end
 end
 
-
+-- event WORLD_MAP_UPDATE - wywoływana przy zmianie zawartości mapy świata
 function QTR:WORLD_MAP_UPDATE()
   if ( WorldMapFrame:IsVisible() ) then
      if (QTR_PS["active"]=="1") then
@@ -505,7 +505,7 @@ function QTR:WORLD_MAP_UPDATE()
   end
 end
 
-
+-- funkcja wykrywająca czy jest to serwer emulatora WoW (niektóre funkcje API nie działają na emulatorach)
 function DetectEmuServer()
   QTR_PS["isGetQuestID"]="0";
   isGetQuestID="0";
@@ -516,7 +516,7 @@ function DetectEmuServer()
   end
 end
 
-
+-- funkcja oczekująca dany czas
 function QTR_wait(delay, func, ...)
   if(type(delay)~="number" or type(func)~="function") then
     return false;
@@ -545,7 +545,7 @@ function QTR_wait(delay, func, ...)
   return true;
 end
 
-
+-- event QUEST_GREETING - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
 function QTR:QUEST_GREETING()
   if (QTR_PS["active"]=="1" and QTR_PS["mode"]=="1") then
      CurrentQuestsText:SetText(QTR_Messages.currquests);
@@ -560,7 +560,7 @@ function QTR:QUEST_GREETING()
   end
 end
 
-
+-- event QUEST_DETAIL - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
 function QTR:QUEST_DETAIL()
   QTR_event = "QUEST_DETAIL";
   if (isGetQuestID=="0") then
@@ -572,26 +572,26 @@ function QTR:QUEST_DETAIL()
   end
 end
 
-
+-- event QUEST_PROGRESS - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
 function QTR:QUEST_PROGRESS()
   QTR_event = "QUEST_PROGRESS";
   QTR_OnEvent2();
 end
 
-
+-- event QUEST_COMPLETE - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
 function QTR:QUEST_COMPLETE()
   QTR_event = "QUEST_COMPLETE";
   QTR_OnEvent2();
 end
 
-
+-- event GOSSIP_SHOW - wyświetla tłumaczenie tekstu w oknie GossipFrame
 function QTR:GOSSIP_SHOW()
   if (QTR_PS["gossip"] == "1") then
      QTR_Gossip_Show();
   end
 end  
     
-
+-- funkcja wywoływana przy zdarzeniach QUEST_DETAIL, QUEST_PROGRESS, QUEST_COMPLETE, WORLD_MAP_UPDATE
 function QTR_OnEvent2()
   local q_ID = 0;
   local q_title = GetTitleText();
@@ -699,7 +699,7 @@ function QTR_OnEvent2()
   end
 end
 
-
+-- funkcja wyświetlająca okno QTRFrame2 z tłumaczeniem tekstu w zależności od zdarzenia
 function QTR_ShowFrame2(eventStr, qid)
   QTR_QuestID2:SetText("QuestID: " .. qid);
   QTR_QuestDetail2:SetText(QTR_Messages.missing);
@@ -738,13 +738,13 @@ function QTR_ShowFrame2(eventStr, qid)
   end
 end
 
-
+-- funkcja zamykania okna QTRFrame2 przy zamykaniu okna QuestFrame 
 function QTR_Frame2Close()
   QTRFrame2:Hide();
   QuestFrame_OnHide();
 end
 
-
+-- funkcja rozdzielająca podany tekst na tablicę elementów, rozdzielonych podanym znakiem
 function QTR_split(str, c)
   local aCount = 0;
   local array = {};
@@ -760,7 +760,7 @@ function QTR_split(str, c)
   return array;
 end
 
-
+-- funkcja zwracająca pozycję ostatniego wystąpienia podanego znaku w podanym tekście
 function QTR_findlast(source, char)
   if (not source) then
      return 0;
@@ -775,7 +775,7 @@ function QTR_findlast(source, char)
   return lastpos;
 end
 
-
+-- funkcja zmieniająca wysokość okna
 function QTR_ChangeFrameHeight()
   -- normal height of Frame = 425, quest detail = 350
   if (QTR_SizeH == 1) then
@@ -793,7 +793,7 @@ function QTR_ChangeFrameHeight()
   end
 end
 
-
+-- funkcja zmieniająca szerokość okna
 function QTR_ChangeFrameWidth()
   -- normal width of Frame = 350, quest detail = 320
   if (QTR_SizeW == 1) then
@@ -813,31 +813,27 @@ function QTR_ChangeFrameWidth()
   end
 end
 
-
+-- start moving the window
 function QTR_OnMouseDown1()
-  -- start moving the window
   QTRFrame1:StartMoving();
 end
   
-
+-- stop moving the window
 function QTR_OnMouseUp1()
-  -- stop moving the window
   QTRFrame1:StopMovingOrSizing();
 end
 
-
+-- start moving the window
 function QTR_OnMouseDown2()
-  -- start moving the window
   QTRFrame2:StartMoving();
 end
   
-
+-- stop moving the window
 function QTR_OnMouseUp2()
-  -- stop moving the window
   QTRFrame2:StopMovingOrSizing();
 end
 
-
+-- funkcja przywracająca oryginalną czcionkę 
 function RestoreOriginalFonts()
   QuestInfoTitleHeader:SetFont(Original_Font1, 18);
   QuestInfoDescriptionHeader:SetText(QTR_MessOrig.details);
@@ -867,7 +863,7 @@ function RestoreOriginalFonts()
   QuestProgressRequiredMoneyText:SetFont(Original_Font2, 13);
 end
 
-
+-- funkcja tłumacząca tekst w Eventach np. pobranie nowego questa
 function QTR_ChangeText_InEvent(QTR_event, str_id)
   if (QTR_PS["transtitle"]=="1") then
      QuestInfoTitleHeader:SetText(QTR_ExpandUnitInfo(QTR_QuestData[str_id]["Title"]));
@@ -910,7 +906,7 @@ function QTR_ChangeText_InEvent(QTR_event, str_id)
   QuestProgressRequiredItemsText:SetFont(QTR_Font1, 18);
 end
 
-
+-- funkcja tłumacząca tekst w Quest Log
 function QTR_ChangeText_OnQuestLog(qid)
   if (QTR_PS["transtitle"]=="1") then
      QuestInfoTitleHeader:SetText(QTR_ExpandUnitInfo(QTR_QuestData[qid]["Title"]));
@@ -940,7 +936,7 @@ function QTR_ChangeText_OnQuestLog(qid)
   QuestInfoSpellLearnText:SetFont(QTR_Font2, 13);
 end
 
-
+-- funkcja wywoływana po kliknięciu przycisku QTR w QuestLogFrame - włącza i wyłącza tłumaczenie
 function QTR_ToggleVisibility()
   -- click on QTR button in QuestLogFrame
   if (QTR_PS["active"]=="0") then
@@ -963,7 +959,7 @@ function QTR_ToggleVisibility()
   end
 end
 
-
+-- funkcja wywoływana przy otworzeniu Quest Log - za pomocą przycisku lub skrótu klawiszowego "L" lub z listy questów pod mapą
 function QTR_ShowAndUpdateQuestInfo()
   if (QTR_PS["active"]=="0") then
      return;
@@ -974,12 +970,12 @@ function QTR_ShowAndUpdateQuestInfo()
   QTR_UpdateQuestInfo();
 end
 
-
+-- funkcja wywoływana przy zamknięciu Quest Loga lub  Quest Details
 function QTR_HideQuestInfo()
   QTRFrame1:Hide();
 end
 
-
+-- funkcja wywoływana po naciśnięciu questa w QuestLog - wyświetla tłumaczenie w QuestLogFrame
 function QTR_UpdateQuestInfo()
   if (QTR_PS["active"]=="0") then
      return;
@@ -1021,7 +1017,7 @@ function QTR_UpdateQuestInfo()
   end 
 end
 
-
+-- wyłącz tłumaczenie - pokaż oryginalny tekst
 function GS_ON_OFF()
    if (curr_goss=="1") then         -- wyłącz tłumaczenie - pokaż oryginalny tekst
       curr_goss="0";
@@ -1037,8 +1033,7 @@ function GS_ON_OFF()
    end
 end
 
-
--- Otworzono okienko rozmowy z NPC
+-- Otworzono okienko rozmowy z NPC (np. strażnikiem)
 function QTR_Gossip_Show()
    local Nazwa_NPC = GossipFrameNpcNameText:GetText();
    curr_hash = 0;
@@ -1101,7 +1096,7 @@ function QTR_Gossip_Show()
    end
 end
 
-
+-- Otworzono okienko tutoriala 
 function Tut_onTutorialShow()
    if (QTR_PS["tutorial"]=="1") then
       if (not QTR_wait(0.1,Tut_TutorialShowDelayed)) then
@@ -1110,7 +1105,7 @@ function Tut_onTutorialShow()
    end
 end
 
-
+-- wyświetl tłumaczenie tutoriala po opóźnieniu 0.1 sekundy (czasami nie zdąży się wyświetlić tekst w okienku) 
 function Tut_TutorialShowDelayed()
    Tut_ID = TutorialFrame.id;
    local Tut_tytul, Tut_tekst = "","";
@@ -1129,7 +1124,7 @@ function Tut_TutorialShowDelayed()
    TutorialFrameOkayButton:SetText("Zamknij");
 end
 
-
+-- funkcja zamieniająca w tekście znaczniki YOUR_NAME, YOUR_GENDER, NPC_GENDER, OWN_NAME na odpowiednie formy gramatyczne w języku polskim
 function QTR_ExpandUnitInfo(msg)
    msg = string.gsub(msg, "NEW_LINE", "\n");
    msg = string.gsub(msg, "YOUR_NAME0", string.upper(QTR_name));
