@@ -10,8 +10,6 @@ local QTR_class= UnitClass("player");
 local QTR_race = UnitRace("player");
 local QTR_sex = UnitSex("player");     -- 1:neutral,  2:męski,  3:żeński
 local QTR_event="";
-local QTR_waitTable = {};
-local QTR_waitFrame = nil;
 local QTR_MessOrig = {
       details    = "Description", 
       objectives = "Objectives", 
@@ -516,35 +514,6 @@ function DetectEmuServer()
   end
 end
 
--- funkcja oczekująca dany czas
-function QTR_wait(delay, func, ...)
-  if(type(delay)~="number" or type(func)~="function") then
-    return false;
-  end
-  if(QTR_waitFrame == nil) then
-    QTR_waitFrame = CreateFrame("Frame","QTR_WaitFrame", UIParent);
-    QTR_waitFrame:SetScript("onUpdate",function (self,elapse)
-      local count = #QTR_waitTable;
-      local i = 1;
-      while(i<=count) do
-        local waitRecord = tremove(QTR_waitTable,i);
-        local d = tremove(waitRecord,1);
-        local f = tremove(waitRecord,1);
-        local p = tremove(waitRecord,1);
-        if(d>elapse) then
-          tinsert(QTR_waitTable,i,{d-elapse,f,p});
-          i = i + 1;
-        else
-          count = count - 1;
-          f(unpack(p));
-        end
-      end
-    end);
-  end
-  tinsert(QTR_waitTable,{delay,func,{...}});
-  return true;
-end
-
 -- event QUEST_GREETING - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
 function QTR:QUEST_GREETING()
   if (QTR_PS["active"]=="1" and QTR_PS["mode"]=="1") then
@@ -563,13 +532,7 @@ end
 -- event QUEST_DETAIL - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
 function QTR:QUEST_DETAIL()
   QTR_event = "QUEST_DETAIL";
-  if (isGetQuestID=="0") then
-     if ( not QTR_wait(0.5,QTR_OnEvent2) ) then
-        QTR_OnEvent2();
-     end
-  else
-     QTR_OnEvent2();
-  end
+  QTR_OnEvent2();
 end
 
 -- event QUEST_PROGRESS - wyświetla tłumaczenie tekstu w oknie QuestFrame, jeśli istnieje tłumaczenie dla tego QuestID
@@ -1096,17 +1059,8 @@ function QTR_Gossip_Show()
    end
 end
 
--- Otworzono okienko tutoriala 
+-- wyświetl tłumaczenie tutoriala
 function Tut_onTutorialShow()
-   if (QTR_PS["tutorial"]=="1") then
-      if (not QTR_wait(0.1,Tut_TutorialShowDelayed)) then
-         -- opóźnienie 0.1 sek
-      end
-   end
-end
-
--- wyświetl tłumaczenie tutoriala po opóźnieniu 0.1 sekundy (czasami nie zdąży się wyświetlić tekst w okienku) 
-function Tut_TutorialShowDelayed()
    Tut_ID = TutorialFrame.id;
    local Tut_tytul, Tut_tekst = "","";
    if (Tut_Data[tostring(Tut_ID)]) then
