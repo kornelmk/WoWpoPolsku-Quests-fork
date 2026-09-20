@@ -375,8 +375,19 @@ function QTR_OnLoad1()
   QTR.frame1:RegisterEvent("ADDON_LOADED");
   QTR.frame1:RegisterEvent("QUEST_LOG_UPDATE");
   QTR.frame1:SetScript("OnEvent", function(self, event, ...) return QTR[event] and QTR[event](QTR, event, ...) end);
-  QuestLogDetailScrollFrame:SetScript("OnShow", QTR_ShowAndUpdateQuestInfo);
-  QuestLogDetailScrollFrame:SetScript("OnHide", QTR_HideQuestInfo);
+  QuestLogDetailScrollFrame:HookScript("OnShow", QTR_ShowAndUpdateQuestInfo);
+  QuestLogDetailScrollFrame:HookScript("OnHide", QTR_HideQuestInfo);
+  
+  QuestLogDetailFrame:HookScript("OnShow", function(self)
+     self.QTR_WaitingForTranslation = true
+  end)
+
+  QuestLogDetailFrame:HookScript("OnUpdate", function(self)
+     if self.QTR_WaitingForTranslation then
+        self.QTR_WaitingForTranslation = nil
+        QTR_UpdateQuestInfo()
+     end
+  end)
 
   QTR_QuestTitle:SetFont(QTR_Font2, 17);
   QTR_QuestDetail:SetFont(QTR_Font2, 14);
@@ -434,18 +445,29 @@ end
 
 -- obsługa przycisków z questami pod mapą - zadania rozwiązane (?) oraz zadania bieżące (1 do 20)
 function QTR_HookWatchFrameButtons()
-   print("QTR_HookWatchFrameButtons")
-    for i = 1, 20 do
-        for typ = 1, 2 do
-            local button = _G["poiWatchFrameLines" .. typ .. "_" .. i]
-            if button and not button.QTR_Hooked then
-                button:HookScript("OnClick", function()
-                    QTR_ShowAndUpdateQuestInfo()
-                end)
-                button.QTR_Hooked = true
-            end
-        end
-    end
+   -- przyciski pod mapą: questy bieżące / rozwiązane
+   for i = 1, 20 do
+      for typ = 1, 2 do
+         local button = _G["poiWatchFrameLines" .. typ .. "_" .. i]
+         if button and not button.QTR_Hooked then
+            button:HookScript("OnClick", function()
+               QTR_ShowAndUpdateQuestInfo()
+            end)
+            button.QTR_Hooked = true
+         end
+      end
+   end
+
+   -- klikane tytuły questów w WatchFrame
+   for i = 1, 20 do
+      local button = _G["WatchFrameLinkButton" .. i]
+      if button and not button.QTR_Hooked then
+         button:HookScript("OnClick", function()
+            QTR_ShowAndUpdateQuestInfo()
+         end)
+         button.QTR_Hooked = true
+      end
+   end
 end
 
 -- funkcja wywoływana przy otwarciu okna QTRFrame2
