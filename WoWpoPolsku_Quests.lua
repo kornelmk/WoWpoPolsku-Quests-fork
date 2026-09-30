@@ -126,7 +126,7 @@ function Spr_Gender(msg)
 end
 
 -- funkcja tworząca Hash (32-bitowa liczba) podanego tekstu
-local function StringHash(text)           -- funkcja tworząca Hash (32-bitowa liczba) podanego tekstu
+function StringHash(text)           -- funkcja tworząca Hash (32-bitowa liczba) podanego tekstu
   local counter = 1;
   local pomoc = 0;
   local dlug = string.len(text);
